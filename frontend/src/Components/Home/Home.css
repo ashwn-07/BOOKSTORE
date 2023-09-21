@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap');
+/* .bg-style{
+    background:url('../../Img/Vector2.svg') no-repeat;
+    background-size: contain;
+    min-height: 50vh;
+} */
+
+.text-st{
+    font-family: 'Rubik';
+    letter-spacing: 0.5mm;
+    font-size: 3rem;
+}
+.main-textdesc{
+    font-family: 'Rubik';
+    font-size: 1rem;
+    letter-spacing: 0.2mm;
+    color: rgb(104, 97, 97);
+}
+.main-btn{
+    background-color: rgb(25, 193, 81);
+    border-color: rgb(25, 193, 81);
+    font-family: 'Rubik';
+    letter-spacing: 0.2mm;
+    
+}
+.main-btn:hover{
+    background-color: rgb(23, 171, 72);
+    border-color: rgb(25, 193, 81);;
+}
+
+.browse-section{
+    font-family: 'Rubik';
+    font-size: 1.5rem;
+}
+
+.show-btn{
+background-color: rgb(201, 30, 64);
+font-family: 'Rubik';
+border-color: rgb(201, 30, 64);
+}
+.show-btn:hover{
+    background-color: rgb(167, 28, 55);
+    border-color: rgb(201, 30, 64);
+    }
