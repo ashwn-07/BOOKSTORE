@@ -1,0 +1,12 @@
+.cover-img{
+    border-radius: 1rem;
+}
+.book-title{
+    text-align: center;
+}
+.details-btn{
+    background-color: rgb(123, 123, 123);
+    font-family: 'Poppins';
+    color: aliceblue;
+  
+}

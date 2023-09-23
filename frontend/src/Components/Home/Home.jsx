@@ -4,6 +4,7 @@ import './Home.css'
 import Slide from 'react-reveal/Slide';
 import homebg from '../../Img/bgmain.png'
 import TypeIt from "typeit-react";
+import Books from './Books/Books';
 
 const Home = () => {
   return (
@@ -37,6 +38,8 @@ const Home = () => {
       /></p>
  </div>
  <div className="d-flex justify-content-center"><button type="button" class="btn btn-dark show-btn">Show All</button></div>
+
+ <div className='mx-5 my-5'><Books/></div>
 </>
   )
 }
