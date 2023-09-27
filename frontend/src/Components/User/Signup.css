@@ -21,6 +21,21 @@
     font-family:'Rubik';
     letter-spacing: 0.2mm;
 }
+
+.instructions{
+
+    display: block;
+    color: red;
+    background-color: antiquewhite;
+    border-radius: 10px;
+    padding-left: 10px;
+    margin-top: 20px;
+}
+
+.offscreen{
+    display: none;
+    
+}
 @media  screen and (max-width: 720px) {
 
     .img-res{

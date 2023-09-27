@@ -4,7 +4,11 @@ const UserSchema = mongoose.Schema({
     name:String,
     email:String,
     password:String,
-    phone:Number
+    phone:Number,
+    roles:{
+        type:[Number],
+        default:9745
+    }
   
 },{timestamps:true})
 

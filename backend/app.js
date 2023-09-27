@@ -4,16 +4,19 @@ require("dotenv").config();
 
 var cors = require('cors')
 app.use(cors())
-
-const dbconncetion = require("./DBconnection/DBconn");
+const cookieParser = require("cookie-parser")
+app.use(cookieParser())
 const mongoose = require("mongoose");
-const books = require("./Routes/BookRoutes");
-const user = require('./Routes/userroutes')
-const PORT = process.env.PORT;
-const bookModel = require("./Models/BookModel");
 
-app.use("/api", books);
-app.use("/api", user)
+
+const PORT = process.env.PORT;
+const auth = require("./Routes/authRoutes")
+const user = require('./Routes/userRoutes')
+const book = require("./Routes/bookroutes");
+
+app.use("/auth", auth);
+app.use("/user", user);
+app.use("/books", book)
 
 const connstr = process.env.CONNSTR;
 const dbconn = mongoose
