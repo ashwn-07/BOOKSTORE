@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
 import Pagination from "../Pagination";
-import data from "../data.json";
 import "./ViewUsers.css";
 import { FiEdit } from "react-icons/fi";
 // import axios from "../../api/axios";
@@ -36,12 +35,13 @@ const ViewUsers = () => {
 
     const handleDelete = async (id) => {
         try {
-            console.log(id);
-
+           
+            setIsLoading(true)
             const response = await axiosPrivate.delete(`/user/delete/${id}`);
-            window.location.reload(false);
+            setIsLoading(false)
         } catch (error) {
             console.log(error);
+            setIsLoading(false)
         }
     };
 
@@ -54,6 +54,7 @@ const ViewUsers = () => {
     };
     const handleUpdate = async (id) => {
         try {
+            setIsLoading(true)
          const response =  await axiosPrivate.put(
                 `/user/edit/${id}`,
                 { phone, name, email },
@@ -64,6 +65,7 @@ const ViewUsers = () => {
 
             setIsUpdateClicked(false)
             setEditId(false)
+            setIsLoading(false);
 
 
         } catch (error) {
@@ -137,7 +139,7 @@ const ViewUsers = () => {
                                                 <td>
                                                     <button
                                                         className={`btn btn-danger`}
-                                                        onClick={() => handleDelete(item)}
+                                                        onClick={() => handleDelete(item._id)}
                                                     >
                                                         <RiDeleteBin2Fill />
                                                     </button>
@@ -161,7 +163,7 @@ const ViewUsers = () => {
                                 </tbody>
                             </table>
                         </div>
-
+                       <div className="mt-5">
                         <Pagination
                             className="pagination-bar"
                             currentPage={currentPage}
@@ -169,6 +171,7 @@ const ViewUsers = () => {
                             pageSize={PageSize}
                             onPageChange={(page) => setCurrentPage(page)}
                         />
+                        </div>
                     </article>
                 </main>
             ) : (

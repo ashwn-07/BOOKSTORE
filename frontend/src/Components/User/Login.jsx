@@ -12,12 +12,12 @@ const Login = () => {
   const [input, setInputs] = useState({});
   const [clicked, setClicked] = useState(false)
   const [errMsg, setErrMsg] = useState(false)
-  const {setAuth, auth} = useAuth();
+  const {setAuth } = useAuth();
 
     const inputHolder = (e) => {
       
       setInputs({ ...input, [e.target.name]: e.target.value });
-      console.log(input);
+      
 
   }
 

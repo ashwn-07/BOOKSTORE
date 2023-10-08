@@ -122,6 +122,7 @@ const editUser = async (req, res)=>{
 
     try {
         const id =  req.params.id
+        console.log(id)
         if(!id) return res.status(400).json({message:"Bad Request!"})
         const foundUser = await Usermodel.findById(id).exec();
         if(!foundUser) return res.status(404).json({message:"User not found"})

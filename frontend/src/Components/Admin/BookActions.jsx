@@ -53,6 +53,7 @@ const BookActions = () => {
     };
     const handleDelete = async () => {
         try {
+            
             const response = await axiosPrivate.delete(`/books/deletebook/${id}`);
             navigate('/admindash')
            

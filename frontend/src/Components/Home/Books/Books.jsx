@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../api/axios";
-import gonegirl from "../../../Img/gone-girl.jpg";
 import "./Books.css";
 import { Link } from "react-router-dom";
 

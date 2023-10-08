@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import AddBookCss from "./AddBook.module.css";
 import { GiCardDiscard } from "react-icons/gi";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useAxiosPrivate from "../../Hooks/UseAxiosPrivate";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AddBook = ({ bookData, clickedUpdate }) => {
-    const {id} = useParams();
+    const { id } = useParams();
     const [title, setTitle] = useState();
     const [author, setAuthor] = useState();
     const [isbn, setIsbn] = useState();
@@ -19,9 +19,10 @@ const AddBook = ({ bookData, clickedUpdate }) => {
     const [isSelected, setIsSelected] = useState(false);
     const [updateValues, setUpdateValues] = useState(clickedUpdate);
     const axiosPrivate = useAxiosPrivate();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
-       e.preventDefault();
+        e.preventDefault();
 
         const formData = new FormData();
 
@@ -33,40 +34,54 @@ const AddBook = ({ bookData, clickedUpdate }) => {
         formData.append("year", year);
 
         if (clickedUpdate) {
-           try {
-            const updatedData = await axiosPrivate.put(`/books/updatebook/${id}`, formData, {
-                withCredentials: true,
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            });
+            try {
+                var idupdate = toast.loading("Updating...");
+                  
+                const updatedData = await axiosPrivate.put(`/books/updatebook/${id}`, formData, {
+                    withCredentials: true,
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
 
-            toast.success("Book Details Updated", {
-                position: toast.POSITION.TOP_LEFT,
-            });
-           } catch (error) {
-            if(error.response.status===400)
-            {
-                toast.error("Fill all the details", {
+                toast.success("Book Details Updated", {
                     position: toast.POSITION.TOP_LEFT,
                 });
+            } catch (error) {
+                if (error.response.status === 400) {
+                    toast.update(idupdate, {
+                        render: "Fill in All the Fields",
+                        type: "error",
+                        isLoading: false,
+                        autoClose: 5000,
+                        closeButton: true,
+                        position:toast.POSITION.BOTTOM_RIGHT
+                    });
+                } else if (error.response.status === 404) {
+                    toast.update(idupdate, {
+                        render: "Something went wrong",
+                        type: "error",
+                        isLoading: false,
+                        autoClose: 5000,
+                        closeButton: true,
+                        position:toast.POSITION.BOTTOM_RIGHT
+                    });
+                } else {
+                    console.log(error);
+                    toast.update(idupdate, {
+                        render: "Something went wrong",
+                        type: "error",
+                        isLoading: false,
+                        autoClose: 5000,
+                        closeButton: true,
+                        position:toast.POSITION.BOTTOM_RIGHT
+                    });
+                }
             }
-           else if(error.response.status===404){
-            toast.error("Something went wrong", {
-                position: toast.POSITION.TOP_LEFT,
-            });
-           }
-           else{
-            console.log(error)
-            toast.error("Server error! Something went wrong", {
-                position: toast.POSITION.TOP_LEFT,
-            });
-           }
-
-           } 
-           
         } else {
             try {
+                var idsav = toast.loading("Saving...");
+
                 const data = await axiosPrivate.post(
                     "/books/add",
 
@@ -79,22 +94,21 @@ const AddBook = ({ bookData, clickedUpdate }) => {
                     }
                 );
 
-                toast.success("Book Added Successfully", {
-                    position: toast.POSITION.TOP_LEFT,
-                });
-                
-            } catch (error) {
-               if(error.response.status===400)
-               {
-                toast.error("Fill all the details", {
-                    position: toast.POSITION.TOP_LEFT,
-                });
-
-               }
-               else{
-                console.log(error)
-               }
               
+                navigate("/admindash");
+            } catch (error) {
+                if (error.response.status === 400) {
+                    toast.update(idsav, {
+                        render: "Fill in All the Fields",
+                        type: "error",
+                        isLoading: false,
+                        autoClose: 5000,
+                        closeButton: true,
+                        position:toast.POSITION.BOTTOM_RIGHT
+                    });
+                } else {
+                    console.log(error);
+                }
             }
         }
     };
@@ -105,7 +119,6 @@ const AddBook = ({ bookData, clickedUpdate }) => {
         setBookcover(e.target.files[0]);
         setBookPreview(url);
         setIsSelected(true);
-        
     };
 
     useEffect(() => {
@@ -116,7 +129,7 @@ const AddBook = ({ bookData, clickedUpdate }) => {
             setIsbn(bookData.isbn);
             setYear(bookData.year);
             setBookPreview(bookData.imageUrl);
-            setIsSelected(true); 
+            setIsSelected(true);
         }
         return () => {
             setUpdateValues(false);
@@ -129,10 +142,7 @@ const AddBook = ({ bookData, clickedUpdate }) => {
         setBookcover(undefined);
         setIsSelected(false);
     };
-    useEffect(() => {
-        console.log(bookData);
-        console.log(clickedUpdate);
-    }, []);
+
     return (
         <>
             <main className={`${AddBookCss.main_container} vw-100 me-5`}>
@@ -183,8 +193,8 @@ const AddBook = ({ bookData, clickedUpdate }) => {
 
                     <section
                         className={`col-lg-6 col-md-6 col-sm-12 col-12  ${AddBookCss.mob_margin} d-flex justify-content-center align-items-center flex-column`}
-                    > 
-                    <ToastContainer/>
+                    >
+                        <ToastContainer />
                         <h2 className={`mb-5 pb-3 ${AddBookCss.heading_style}`}>
                             Enter The Book Details
                         </h2>
@@ -236,7 +246,7 @@ const AddBook = ({ bookData, clickedUpdate }) => {
                                         className={`${AddBookCss.form_input} form-control`}
                                         style={{ display: "block" }}
                                         onChange={(e) => setYear(e.target.value)}
-                                        value={ clickedUpdate?new Date(year).getFullYear():year}
+                                        value={clickedUpdate ? new Date(year).getFullYear() : year}
                                     />
                                 </div>
                             </div>

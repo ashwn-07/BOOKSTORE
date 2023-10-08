@@ -39,11 +39,11 @@ const ReviewPage = () => {
             });
             setNewReviewAdded(true);
         } catch (error) {
-            if (error.response.status == 409) {
+            if (error.response.status === 409) {
                 toast.error("Review already added", {
                     position: toast.POSITION.TOP_LEFT,
                 });
-            } else if (error.response.status == 400) {
+            } else if (error.response.status === 400) {
                 toast.error("Please write before submission", {
                     position: toast.POSITION.TOP_LEFT,
                 });

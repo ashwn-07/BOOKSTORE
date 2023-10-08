@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import UserHeader from "./UserDash/UserHeader";
 import './Profile.css'
-import axios from "../../api/axios";
 import useAuth from "../../Hooks/UseAuth";
 import useAxiosPrivate from "../../Hooks/UseAxiosPrivate";
 
@@ -9,7 +8,6 @@ const UserProfile = () => {
 
 
   const [isEditClicked, setIsEditClicked]= useState(false);
-  const [details, setDetails] = useState();
   const [phone, setPhone]= useState();
   const [email, setEmail] = useState();
   const [name, setName] = useState();
@@ -58,7 +56,7 @@ callapi();
 
     } catch (error) {
       console.log(error)
-      if(error.response.status==400){
+      if(error.response.status===400){
         setMsg(error.response.data.message)
         setIsSuccess(true)
 
@@ -83,6 +81,7 @@ callapi();
                             <img
                                 src="https://www.pngfind.com/pngs/m/80-804723_png-file-svg-profile-picture-square-icon-transparent.png"
                                 className="rounded-circle img-fluid"
+                                alt="profile"
                             />{" "}
                             <span>
                                 <i className="bx bxs-camera-plus"></i>

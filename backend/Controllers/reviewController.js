@@ -56,14 +56,21 @@ const getBookReview = async (req, res) => {
         if (!review) return res.status(404).json({ message: " Resource not found" });
          
         let currTotalRating = 0;
+        console.log(review.reviews)
         review.reviews.forEach( item => {
              
           currTotalRating = currTotalRating+item.rating
+          console.log(currTotalRating)
 
         });
+        let avgRating =0;
 
-        const avgRating = (currTotalRating/(review.reviews.length)).toFixed(2)
-        
+        if(review.reviews.length)
+        {
+             avgRating = (currTotalRating/(review.reviews.length)).toFixed(2) 
+            console.log(avgRating)
+        }
+       
 
         res.json({ review , avgRating });
     } catch (error) {

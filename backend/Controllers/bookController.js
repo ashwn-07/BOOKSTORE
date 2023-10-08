@@ -25,6 +25,7 @@ const getAllBooks = async (req, res) => {
 const createNewBook = async (req, res) => {
     try {
         const { title, author, isbn, genre, year } = req.body;
+        console.log(req.body)
 
         if (!req.file) return res.status(400).json({ message: "Please Select the file" });
 

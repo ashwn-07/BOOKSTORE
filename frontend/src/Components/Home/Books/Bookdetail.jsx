@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import gonegirl from '../../../Img/gone-girl.jpg'
 import HedaerHome from "../HedaerHome";
 import axios from "../../../api/axios";
 import { useParams } from "react-router-dom";
