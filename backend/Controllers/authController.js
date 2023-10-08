@@ -8,6 +8,7 @@ router.use(express.urlencoded({ extended: true }));
 router.use(express.json());
 
 
+
 // @desc Login
 // @route POST /auth
 // @access Public
@@ -22,12 +23,15 @@ const login = async (req, res) => {
     }
 
     const foundUser = await userModel.findOne({ email }).exec()
-    const {roles} = foundUser;
+    
+    
     
     if (!foundUser) {
         return res.status(401).json({ message: 'User Does not exist' })
     }
-
+    const {roles, _id} = foundUser;
+      const id = _id.toString();
+      console.log(id)
     const match = await bcrypt.compare(password, foundUser.password)
 
     if (!match) return res.status(401).json({ message: 'Invalid username or password' })
@@ -40,11 +44,11 @@ const login = async (req, res) => {
             }
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '15m' }
+        { expiresIn: '10s' }
     )
 
     const refreshToken = jwt.sign(
-        { "email": foundUser.emial },
+        { "email": foundUser.email },
         process.env.REFRESH_TOKEN_SECRET,
         { expiresIn: '7d' }
     )
@@ -57,8 +61,8 @@ const login = async (req, res) => {
         maxAge: 7 * 24 * 60 * 60 * 1000 //cookie expiry: set to match rT
     })
 
-    // Send accessToken containing username and roles 
-    res.json({ roles,  accessToken })
+    // Send accessToken containing  userid and roles 
+    res.json({ roles,  accessToken, id })
         
     } catch (error) {
         console.error(error)
@@ -76,6 +80,9 @@ const login = async (req, res) => {
 // @route GET /auth/refresh
 // @access Public - because access token has expired
 const refresh = (req, res) => {
+ try {
+    
+    console.log("hit refersh endpoint")
     const cookies = req.cookies
 
     if (!cookies?.jwt) return res.status(401).json({ message: 'Unauthorized' })
@@ -85,11 +92,12 @@ const refresh = (req, res) => {
     jwt.verify(
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET,
-        asyncHandler(async (err, decoded) => {
+        async (err, decoded) => {
             if (err) return res.status(403).json({ message: 'Forbidden' })
 
-            const foundUser = await User.findOne({ email: decoded.email }).exec()
-                  const {roles} = foundUser;
+            const foundUser = await userModel.findOne({ email: decoded.email }).exec()
+                  const {roles, _id} = foundUser;
+                  const id = _id.toString();
                   console.log(roles)
             if (!foundUser) return res.status(401).json({ message: 'Unauthorized' })
 
@@ -104,17 +112,21 @@ const refresh = (req, res) => {
                 { expiresIn: '15m' }
             )
 
-            res.json({  accessToken })
-        })
+            res.json({  accessToken, roles, id })
+        }
     )
+ } catch (error) {
+    console.log(error)
+ }
 }
 
 // @desc Logout
 // @route POST /auth/logout
 // @access Public - just to clear cookie if exists
 const logout = (req, res) => {
-    console.log(req)
+   // console.log(req)
     const cookies = req.cookies
+    console.log(req.body)
     console.log(cookies)
    
     if (!cookies?.jwt) return res.sendStatus(204) //No content

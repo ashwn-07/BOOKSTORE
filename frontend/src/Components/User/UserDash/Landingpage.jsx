@@ -1,35 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UserHeader from "./UserHeader";
-import gonegirl from "../../../Img/gone-girl.jpg";
-import './L.css'
+import { Link } from "react-router-dom";
+import "./L.css";
+import axios from "../../../api/axios";
 
 const Landingpage = () => {
+    const [books, setBooks] = useState([]);
+    const [isLoading, SetIsLoading] = useState(true);
+    useEffect(() => {
+        axios
+            .get("books")
+            .then((response) => {
+                setBooks(response.data.data);
+                SetIsLoading(false)
+            })
+
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
+  
     return (
         <div>
-            <UserHeader />
+           { isLoading?<p>Loading....</p>:(<><UserHeader />
 
-            <div className="row">
-                <div className="col-lg-12  ms-5 mt-4">
-                    <div className="row">
-                    <div className="col-lg-2">
-                        <img className="img-fluid cover-img" src={gonegirl} alt="hii" />
+            <div className="row m-0 bg-color">
+                
+            {books.map((value, index)=>( <div  key={index} className="col-lg-4   ps-5 mt-4">
+                    <div className="row mb-5">
+                        <div className="col-lg-6">
+                            <img className="img-fluid cover-img" src={value.imageUrl} alt="hii" />
+                        </div>
+
+                    <div className="col-lg-6 pt-3">
+                        <h3>{value.title}</h3>
+
+                       
+                        <Link className="text-dec"  to={`/review/${value._id}`}> <button className="btn btn-color">Review</button></Link>
+                        <Link to={`/rent/${value._id}`}> <button className="btn btn-color">Rent</button></Link>
                     </div>
-                           <div className="col-lg-4  rev-st"><h1>Reviews</h1></div>
-                           </div>
-
-                    <div className="col-lg-12 pt-3"> 
-                    <h2>Gone Girl</h2>
-                    <p>Author: <span>Gillian Flynn</span></p>
-                        <h5>ISBN:<span>Gillian Flynn</span></h5>
-                        <h5>Year:<span>Gillian Flynn</span></h5>
-                        <h5>Genre:<span>Gillian Flynn</span></h5>
-                        <h5>Availability: <span>Rented</span></h5>
                         
-                        <button className="btn btn-color">Rent</button>
-
                     </div>
-                </div>
-            </div>
+
+                   
+                </div>))};
+            </div></>)}
         </div>
     );
 };

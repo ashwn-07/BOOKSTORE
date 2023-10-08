@@ -1,18 +1,18 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import './LogIn.css'
 import { useNavigate } from "react-router-dom"
-import AuthContext from '../../Context/AuthProvider'; 
 import axios from '../../api/axios';
 import useAuth from '../../Hooks/UseAuth';
 
 const Login = () => {
+
+
+
   const navigate = useNavigate();
   const [input, setInputs] = useState({});
-  const [success, setSuccess] = useState(false)
   const [clicked, setClicked] = useState(false)
   const [errMsg, setErrMsg] = useState(false)
-  const {setAuth} = useAuth();
-
+  const {setAuth, auth} = useAuth();
 
     const inputHolder = (e) => {
       
@@ -25,23 +25,28 @@ const Login = () => {
 const Submithandler = (e)=>{
   
   e.preventDefault();
-axios.post(`/auth`, input)
+axios.post(`/auth`, input, {
+  withCredentials:true
+})
         .then((response) => {
-          console.log(response)
+          
            if(response?.data?.accessToken)
            {
-              const accessToken = response.data.accessToken
-              const roles = response.data.roles
-              setAuth({accessToken, roles})
+              const {accessToken, roles, id} = response.data
+              
+              setAuth({accessToken, roles, id})
+                     
+           if(roles.includes(6996))
+           {
+              navigate('/admindash')
+           }
 
-            console.log(response)
-            navigate('/userdashboard')
-
+            else{
+                 navigate('/userdashboard')
+            }
            }
 
 
-
-            
            
         })
         .catch((err)=>{
@@ -50,12 +55,21 @@ axios.post(`/auth`, input)
           if (!err?.response) {
             setErrMsg("No Server Response");
 
+            setTimeout(() => {
+              setClicked(false);
+            }, 2000);
+
          }
-         // else if (err.response?.status === 409) {
-        //     setErrMsg("Already Registered");
-        // } 
+         
         else if (err.response?.status === 401 && err.response?.data.message==="User Does not exist" ) {
           setErrMsg("User Does not exist");
+       
+      
+          setTimeout(() => {
+            setClicked(false);
+           
+          }, 2000);
+
       } 
       else if (err.response?.status === 401 && err.response?.data.message==="Invalid username or password" ) {
         setErrMsg(err.response.data.message);
@@ -63,9 +77,19 @@ axios.post(`/auth`, input)
       
       else  if (err.response?.status === 400){
             setErrMsg("All feilds are required");
+
+            setTimeout(() => {
+              setClicked(false);
+              
+            }, 2000);
+
         }
         else  if (err.response?.status === 500){
           setErrMsg("Server  error");
+          setTimeout(() => {
+            setClicked(false);
+          }, 2000);
+
           //set an error page for server error and dipslay it if needed
           console.log(err)
       }
@@ -100,10 +124,12 @@ axios.post(`/auth`, input)
     </div>
    
     <div class="col-md-6 col-sm-12 ">
+    <p className={clicked?"successmsg":"hide-msg"} style={{color:"red"}}>{errMsg}</p>
+
       <button type="submit" className="btn btn-color btn-fnt w-100 fs-5" onClick={Submithandler}>Log In</button>
       
     </div>
-    <p className={clicked&&success?"successmsg":"hide-msg"}>{errMsg}</p>
+    
   </div>
          </form>
     </div>

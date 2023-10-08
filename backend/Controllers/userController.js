@@ -38,4 +38,104 @@ const Usermodel = require("../Models/UserModel");
     }
 };
 
-module.exports = { signUp };
+//to get a single user details 
+
+const getSingleUser = async (req, res)=>{
+    try {
+        const id = req.params.id
+           console.log(id)
+        const users = await Usermodel.findById(id).select("-password").exec();
+       
+        console.log(users)
+        
+    // If no users 
+    if (!users) {
+        return res.status(400).json({ message: 'No users found' })
+    }
+
+    res.json(users)
+        
+    } catch (error) {
+        
+        console.error(error)
+        res.status(500).json({message:"Server Error"})
+    }
+
+}
+
+
+//to get all users
+const getAllUsers =  async (req, res)=>{
+
+    try {
+        const users = await Usermodel.find().select('-password').lean()
+
+    // If no users 
+    if (!users?.length) {
+        return res.status(400).json({ message: 'No users found' })
+    }
+
+    res.json(users)
+        
+    } catch (error) {
+        
+        console.error(error)
+        res.status(500).json({message:"Server Error"})
+    }
+}
+   
+//to edit a user details
+
+const editUser = async (req, res)=>{
+    try {
+        const id =  req.params.id
+        console.log(id)
+        console.log("hiiii")
+        const {name, email, phone} = req.body
+
+      if(!(name && email && phone)) return res.status(400).json({message:"Bad Request! Insufficent data"}) 
+
+      const foundUser = await Usermodel.findById(id).exec();
+      if(!foundUser) return res.status(404).json({message:"User not found"})
+
+      foundUser.name = name
+      foundUser.email = email
+      foundUser.phone = phone
+      
+      const updatedUser = await foundUser.save();
+       
+      res.json({message: "User details Updated"})
+       
+
+       
+
+    } catch (error) {
+
+         res.status(500).json({ message: "Server error" });
+            console.error(error);
+    }
+}
+    //to delete a user
+
+   const  deleteUser = async (req, res )=>{
+          
+
+    try {
+        const id =  req.params.id
+        if(!id) return res.status(400).json({message:"Bad Request!"})
+        const foundUser = await Usermodel.findById(id).exec();
+        if(!foundUser) return res.status(404).json({message:"User not found"})
+        const result = foundUser.deleteOne()
+         res.json({message:"User Deleted"})
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: "Server error" });
+    }
+   }
+
+
+
+
+
+module.exports = { signUp,getSingleUser, getAllUsers,deleteUser,editUser };

@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&family=Poppins&display=swap');
+
+.main_container{
+margin-left: 150px;
+
+}
+
+.cover_conatiner{
+
+    height: 80%;
+    width:70%
+
+}
+
+.cover_inner_container{
+
+    height: calc(100% - 40px);
+    width:calc(100% - 40px);
+    border: 2px dashed grey;
+    border-radius: 0.5rem;
+}
+
+.file_input{
+    width: 120px;
+    z-index: 0;
+    
+}
+
+
+
+
+
+/* .file_input::after{
+content: "Select Cover";
+color: white;
+padding-top: 5px;
+text-align: center;
+background-color: rgba(73, 129, 236, 1);
+border-radius: 0.5rem;
+width:125px;
+height: 40px;
+cursor: pointer;
+position: absolute;
+left: 24%;
+z-index:0;
+
+} */
+
+.heading_style{
+
+    font-family: 'Inter';
+}
+
+.form_label{
+
+    font-family: "Poppins";
+    letter-spacing: 0.3mm;
+   
+}
+
+.form_container{
+
+
+    border-radius: 0.8rem;
+    box-shadow: -20px 15px 61px 33px rgba(6, 6, 6, 0.114);
+    position: relative;
+}
+form{
+    background-color: white;
+}
+
+
+.form_container::before{
+    content: "";
+    background-color: #00FD84;
+    position: absolute;
+    width: calc(100% );
+    height: calc(100% + 70px);
+    border-radius: 0.8rem;
+    top:-45px;
+    right: 35px;
+    z-index: -300;
+    /* animation: slidein 0.5s ease-in; */
+}
+
+/* @keyframes slidein {
+    from {
+      
+      right: -120px;
+    }
+  
+    to {
+      
+        right: 35px;
+    }
+  }
+ */
+
+
+/* media    Queries */
+
+@media screen and (max-width:520px) {
+
+    .cover_conatiner{
+
+      
+        width: 120%;
+        height: 100%;
+    }
+
+
+    .cover_outer_mob{
+
+        height: 50vh !important ;
+    }
+
+    .mob_margin{
+
+        margin-top: 60px;
+    }
+   
+    
+}

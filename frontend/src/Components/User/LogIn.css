@@ -23,6 +23,13 @@
     background-color: rgb(72, 199, 142);
     color: white;
 }
+
+.hide-msg{
+    display: none;
+}
+
+
+
 @media screen and (max-width:720px) {
     .main-container{
         width:100%;

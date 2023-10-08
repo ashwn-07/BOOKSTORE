@@ -5,8 +5,13 @@
     text-align: center;
 }
 .details-btn{
-    background-color: rgb(123, 123, 123);
+    background-color: rgba(22, 160, 57, 0.826);
     font-family: 'Poppins';
     color: aliceblue;
-  
+    padding: 0.2rem 0.5rem !important;
+}
+
+.img-container-border{
+
+    border-radius: 3rem;
 }

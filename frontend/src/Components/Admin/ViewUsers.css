@@ -1,0 +1,63 @@
+h1,
+p {
+  font-family: Lato;
+}
+
+.main-margin{
+
+  margin-left: 100px;
+  
+}
+.main-heading{
+
+  text-align: center;
+  font-family: Rubik;
+  color: rgb(106, 107, 110);
+}
+article{
+  overflow: auto;
+  
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  position: relative;
+  background-color:#c9ecd0;
+  /* overflow: scroll; */
+  
+  
+  
+}
+.table-inner{
+ 
+  border-radius: 1rem;
+  overflow:auto;
+}
+
+thead tr th {
+  font-weight: 500;
+  text-align: left;
+  background-color: #fafafa;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+th,
+td {
+  padding: 8px;
+  overflow-wrap: break-word;
+}
+
+.pagination-bar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.enable-editing{
+
+   background-color: none;
+}

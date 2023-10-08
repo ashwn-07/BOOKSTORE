@@ -5,8 +5,39 @@ const BookSchema = mongoose.Schema({
     author:String,
     isbn:String,
     genre:String,
-    year:Number,
+    year:Date,
     bookcover:String,
+
+    reviews: {
+        type: [
+            {  
+                 
+               userid: {
+                    type: String,
+                    required: false,
+                },
+
+                rev:{
+                    type:String,
+                    required: false
+                },
+
+                rating:{
+                    type:Number,
+                    required:false
+                },
+
+                name:{
+                     type:String,
+                     required:false
+
+                }
+                
+                
+            },
+        ],
+        default: [],
+    },
     random:{
         type:Number,
         default:Math.random()

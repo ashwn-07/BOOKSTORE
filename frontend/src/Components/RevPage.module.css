@@ -1,0 +1,61 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+
+.main_section_heading {
+ font-family: 'Montserrat';
+
+}
+
+.custom_label{
+ background-color:rgba(255, 255, 255, 0)
+
+}
+ .Custom_textarea{
+
+    min-height: 360px !important;
+    border-radius: 1.5rem;
+   
+   
+ }
+
+ .review_container{
+
+   max-height: 350px;
+   overflow: scroll;
+   scroll-behavior: smooth;
+   scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For IE and Edge */
+    /* box-shadow: 0 0 5px #838080 inset; */
+    border-radius: 1rem;
+ }
+
+ .review_container::-webkit-scrollbar {
+   display: none;
+}
+
+.card_style{
+
+   border-radius: 2.5rem;
+}
+
+
+@media screen and (max-width:720px) {
+
+
+   .main_padding_mob{
+
+      padding: 0 !important;
+   }
+   .custom_label{
+
+      padding: 20px;
+   }
+   .main_section_heading{
+
+      text-align: center
+   }
+   .span_style{
+
+      justify-content: center !important;
+   }
+}

@@ -2,13 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import sideimg from "../../Img/book.jpg";
 import "./Signup.css";
 import axios from "../../api/axios";
+import {useNavigate} from "react-router-dom";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const PHN_REGEX = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
-const REGISTER_URL = "/userSignup";
+const REGISTER_URL = "user/SignUp";
 
 const Signup = () => {
+    const navigate = useNavigate();
     const emailRef = useRef();
     const errRef = useRef();
     const nameRef = useRef();
@@ -72,30 +74,28 @@ const Signup = () => {
         }
 
         try {
-            const inputs = { email: email, password: pwd };
+            const inputs = { email: email, password: pwd, name:name, phone:num };
             const response = await axios.post(REGISTER_URL, inputs, {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true,
             });
-            console.log(response?.data);
-            console.log(response?.accessToken);
-            console.log(JSON.stringify(response));
-            setSuccess(true);
-            //clear state and controlled inputs
-            //need value attrib on inputs for this
+          
 
+            setSuccess(true);
             setEmail("");
             setpwd("");
             setMatchPwd("");
             setName("");
             setNum("");
+            navigate('/login')
         } catch (err) {
             if (!err?.response) {
                 setErrMsg("No Server Response");
             } else if (err.response?.status === 409) {
                 setErrMsg("Already Registered");
             } else {
-                setErrMsg("Registration Failed, Please try again");
+                setErrMsg("Registration Failed, Something went wrong!");
+                console.error(err)
             }
             errRef.current.focus();
         }
@@ -103,8 +103,8 @@ const Signup = () => {
 
     return (
         <>
-            <div className="row  m-0">
-                <div className="col-md-6  col-sm-12 p-0 bg-primary">
+            <div className="row  m-0 ">
+                <div className="col-md-6 h-100  col-sm-12 p-0 bg-primary">
                     <img className="img-fluid img-res" src={sideimg} />
                 </div>
                 <div className="col-md-6 col-sm-12">
@@ -162,6 +162,7 @@ const Signup = () => {
                                         type="password"
                                         class="form-control"
                                         name="password"
+                                        value={pwd}
                                         placeholder="password"
                                         onChange={(e) => setpwd(e.target.value)}
                                         onFocus={(e) => setPwdFocus(true)}
@@ -250,6 +251,7 @@ const Signup = () => {
                                 <p
                                     id="confirmnote"
                                     className={errMSg ? "instructions" : "offscreen"}
+                                    ref={errRef}
                                 >
                                     {errMSg}
                                 </p>

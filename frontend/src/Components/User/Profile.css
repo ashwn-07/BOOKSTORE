@@ -1,0 +1,21 @@
+.disable-edit{
+
+    border: none;
+    display: flex;
+    margin: 0 auto;
+    
+    
+}
+
+.form-control:disabled{
+
+    background-color: transparent;
+    font-family: 'Roboto';
+   text-align: center;
+   
+}
+
+.profile-container{
+
+    border-radius: 0.8rem;
+}

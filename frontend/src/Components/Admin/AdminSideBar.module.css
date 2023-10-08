@@ -1,0 +1,82 @@
+
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap');
+
+
+
+
+
+.pos_nav{
+    position: fixed;
+    z-index: 1000;
+  
+    
+}
+
+
+
+.transition_close{
+transition-property: all;
+transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+transition-duration: 450ms;
+}
+
+.sidebar_close{
+    width: 0;
+    overflow: hidden;
+   
+}
+.sidebar_nav_close{
+
+    width: 90px !important;
+}
+
+.icon_style{
+
+    font-size: 1.5rem;
+    color: rgb(244, 109, 5);
+}
+.icon_style:hover{
+
+    cursor:pointer
+}
+
+.avatar_img{
+
+    height: 50px;
+    width:50px;
+}
+
+ul{
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.link_text_style{
+    font-family: "Inter";
+  letter-spacing: 0.3mm;
+  text-decoration: none;
+    
+
+}
+
+a{
+    text-decoration: none;
+}
+
+.proile_pos{
+   
+     margin-top: auto;
+     margin-bottom: 10px;
+    
+}
+
+.hover_style:hover{
+
+    background-color: rgba(202, 134, 33, 0.223);
+}
+
+.hello{
+
+    background-color: rgba(202, 134, 33, 0.223);
+}
+
