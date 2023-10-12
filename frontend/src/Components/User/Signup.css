@@ -41,6 +41,12 @@
     .img-res{
     
         height: 50vh;
+        
+    }
+
+    .signup-form{
+
+        margin-left: 0 !important;
     }
     
 }

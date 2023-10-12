@@ -104,9 +104,10 @@ const Signup = () => {
     return (
         <>
             <div className="row  m-0 ">
-                <div className="col-md-6 h-100  col-sm-12 p-0 bg-primary">
-                    <img className="img-fluid img-res" src={sideimg} />
+                <div className="col-md-6  col-12 col-sm-12 p-0 bg-primary">
+                    <img className=" img-res" src={sideimg} />
                 </div>
+
                 <div className="col-md-6 col-sm-12">
                     <div className="ms-5 pt-5">
                         <h1 className=" logo-style">Readly</h1>

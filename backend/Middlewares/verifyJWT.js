@@ -4,7 +4,7 @@ require("dotenv").config();
 const verifyJwt = async (req, res, next )=>{
 
     try {
-        console.log(req.headers.authorization)
+        
         const authHeader = req.headers.Authorization || req.headers.authorization
         
         if (!authHeader?.startsWith('Bearer ')) return res.sendStatus(401); //no token: aunauthenticated (401 unauthorised)
@@ -17,7 +17,7 @@ const verifyJwt = async (req, res, next )=>{
                  if(error) return res.sendStatus(403) // invalid , has autentication tokenn but not valid: 403 Forbidden
                  req.user = decoded.UserInfo.email;
                  req.roles = decoded.UserInfo.roles;
-                 console.log(req.roles)
+                
                  next();
              }
                  

@@ -27,8 +27,17 @@ app.use("/rent", rent);
 
 const connstr = process.env.CONNSTR;
 
-const dbconn = mongoose
-    .connect(connstr)
+
+
+
+
+
+// app.get('/*', function(req, res) {
+//     res.sendFile(path.join(__dirname ,'/build/index.html'));
+//  });
+
+
+const dbconn = mongoose.connect(connstr)
 
     .then(async () => {
         console.log("connected to db");

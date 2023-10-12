@@ -6,6 +6,7 @@ import useAxiosPrivate from "../Hooks/UseAxiosPrivate";
 import axios from "../api/axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useCustomToast from "../Hooks/UseToast"
 
 const RentPage = () => {
     const axiosPrivate = useAxiosPrivate();
@@ -18,6 +19,7 @@ const RentPage = () => {
     const [Name, setName] = useState();
     const [responseMsg, setResponseMsg] = useState("");
     const [clicked, setClicked] = useState(false);
+    const {toasting, setErrorToast, setSuccessToast}= useCustomToast();
 
     useEffect( () => {
        fetchBook();
@@ -49,7 +51,7 @@ const RentPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+           toasting();
         axiosPrivate.post(
                 "/rent",
                 {
@@ -61,17 +63,19 @@ const RentPage = () => {
                 }
             )
             .then((response) => {
-
-                toast.success("Rent Request Submitted", {
-                    position: toast.POSITION.BOTTOM_RIGHT,
-                });
+                setSuccessToast("Rent Request Submitted");
+                     
+              
             })
             .catch((err) => {
                 if(err.response.status===400){
 
-                    toast.error("Fill all the fields",  {
-                        position: toast.POSITION.BOTTOM_RIGHT,
-                    })
+                    setErrorToast("Please fill in all the fields");
+                }
+
+                else{
+
+                    setErrorToast("Something went wrong at our end");
                 }
             });
     };
@@ -82,7 +86,7 @@ const RentPage = () => {
             <UserHeader />
             <div className="row m-0">
                 <div className="col-lg-6  d-flex align-items-center">
-                    <div className="row">
+                    <div className="row mt-5 mt-sm-0" >
                         <div className="col-lg-6  d-flex justify-content-center align-items-center">
                             <div className="col-lg-10">
                                 <img className="img-fluid  cover-img" src={book.imageUrl} />

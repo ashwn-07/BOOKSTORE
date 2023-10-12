@@ -14,7 +14,7 @@ router.use(express.json());
 // @access Public
 const login = async (req, res) => {
     try {
-        console.log(req.body)
+        //console.log(req.body)
         const { email, password } = req.body
 
 
@@ -31,7 +31,7 @@ const login = async (req, res) => {
     }
     const {roles, _id} = foundUser;
       const id = _id.toString();
-      console.log(id)
+     // console.log(id)
     const match = await bcrypt.compare(password, foundUser.password)
 
     if (!match) return res.status(401).json({ message: 'Invalid username or password' })
@@ -82,7 +82,8 @@ const login = async (req, res) => {
 const refresh = (req, res) => {
  try {
     
-    console.log("hit refersh endpoint")
+    //console.log("hit refersh endpoint")
+
     const cookies = req.cookies
 
     if (!cookies?.jwt) return res.status(401).json({ message: 'Unauthorized' })
@@ -126,9 +127,6 @@ const refresh = (req, res) => {
 const logout = (req, res) => {
    // console.log(req)
     const cookies = req.cookies
-    console.log(req.body)
-    console.log(cookies)
-   
     if (!cookies?.jwt) return res.sendStatus(204) //No content
     res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true })
     res.json({ message: 'Cookie cleared' })

@@ -13,6 +13,7 @@ const ReviewView = ({ id, newReviewAdded, setNewReviewAdded }) => {
         const controller = new AbortController();
 
         fetchReviews();
+      
 
         setNewReviewAdded(false);
 
@@ -48,13 +49,13 @@ const ReviewView = ({ id, newReviewAdded, setNewReviewAdded }) => {
                 <div className={`${rev.review_container}  mx-3`}>
                     {/* card review */}
                     {reviews.map((revv, index) => (
-                        <div className={`card mx-4 mt-4 shadow ${rev.card_style}`}>
+                        <div key={index} className={`card mx-4 mt-4 shadow ${rev.card_style}`}>
                             <div class="card-body">
                                 <h4>{revv.name}</h4>
                                 <span className="text-warning">
                                     <Star stars={revv.rating} />
                                 </span>
-                                <p class="card-text">{revv.rev}</p>
+                                <p className="card-text">{revv.rev}</p>
                             </div>
                         </div>
                     ))}

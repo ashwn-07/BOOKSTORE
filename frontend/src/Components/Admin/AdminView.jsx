@@ -9,7 +9,7 @@ const AdminView = () => {
     useEffect(() => {
         axios.get("/books/")
             .then((response) => {
-                console.log(response.data);
+                
                 setbooks(response.data.data);
             })
             .catch((error) => {
@@ -18,7 +18,7 @@ const AdminView = () => {
     }, []);
     return (
         <>
-            <main className="ms-5">
+            <main className="ms-0 ms-md-5">
                 <article className="mt-5">
                     <div className="row g-4 ">
                         {books.map((value, index) => (

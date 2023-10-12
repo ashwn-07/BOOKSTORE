@@ -2,10 +2,11 @@ import React, { useState, useMemo, useEffect } from "react";
 import Pagination from "../Pagination";
 import "./ViewUsers.css";
 import { FiEdit } from "react-icons/fi";
-// import axios from "../../api/axios";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import UpdateRow from "./UpdateRow";
 import useAxiosPrivate from "../../Hooks/UseAxiosPrivate"
+import { ToastContainer } from "react-toastify";
+import useCustomToast from "../../Hooks/UseToast";
 
 let PageSize = 10;
 const ViewUsers = () => {
@@ -17,7 +18,11 @@ const ViewUsers = () => {
     const [name, setName] = useState();
     const [email, setEmail] = useState();
     const [phone, setPhone] = useState();
+    const [updated, setUpdated] = useState();
+    const [deleted, setDeleted] =useState(0)
     const axiosPrivate = useAxiosPrivate();
+    const { toasting, setSuccessToast, setErrorToast } = useCustomToast();
+    
 
     useEffect(() => {
         const FetchData = async () => {
@@ -31,7 +36,7 @@ const ViewUsers = () => {
             }
         };
         FetchData();
-    }, []);
+    }, [updated, deleted]);
 
     const handleDelete = async (id) => {
         try {
@@ -39,6 +44,8 @@ const ViewUsers = () => {
             setIsLoading(true)
             const response = await axiosPrivate.delete(`/user/delete/${id}`);
             setIsLoading(false)
+            setDeleted((prev)=>!prev)
+            
         } catch (error) {
             console.log(error);
             setIsLoading(false)
@@ -55,6 +62,7 @@ const ViewUsers = () => {
     const handleUpdate = async (id) => {
         try {
             setIsLoading(true)
+            toasting();
          const response =  await axiosPrivate.put(
                 `/user/edit/${id}`,
                 { phone, name, email },
@@ -62,13 +70,16 @@ const ViewUsers = () => {
                     withCredentials: true,
                 }
             );
-
-            setIsUpdateClicked(false)
-            setEditId(false)
+              console.log(response.data)
+            
+            setIsUpdateClicked(false);
+            setEditId(false);
             setIsLoading(false);
-
+            setUpdated((prev)=>!prev)
+             setSuccessToast("User Details Updated");
 
         } catch (error) {
+            setErrorToast("Something went wrong")
             console.log(error)
         }
       
@@ -79,13 +90,13 @@ const ViewUsers = () => {
         const lastPageIndex = firstPageIndex + PageSize;
         return users.slice(firstPageIndex, lastPageIndex);
     }, [currentPage, users]);
-    useEffect(() => {
-        console.log(phone, name, email);
-    });
+
+  
     return (
         <>
-            {!isLoading ? (
+            
                 <main className="d-block mt-5 vw-100 main-margin">
+                    <ToastContainer/>
                     <h1 className="main-heading">USERS LIST</h1>
                     <article className="container mb-4">
                         <div className="table-inner shadow">
@@ -174,9 +185,7 @@ const ViewUsers = () => {
                         </div>
                     </article>
                 </main>
-            ) : (
-                "Loading....."
-            )}
+            
         </>
     );
 };

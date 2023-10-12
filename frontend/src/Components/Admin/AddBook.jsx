@@ -3,10 +3,10 @@ import AddBookCss from "./AddBook.module.css";
 import { GiCardDiscard } from "react-icons/gi";
 import { useNavigate, useParams } from "react-router-dom";
 import useAxiosPrivate from "../../Hooks/UseAxiosPrivate";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import useCustomToast from "../../Hooks/UseToast";
 
-const AddBook = ({ bookData, clickedUpdate }) => {
+const AddBook = ({ bookData, clickedUpdate, setClickedUpdate }) => {
     const { id } = useParams();
     const [title, setTitle] = useState();
     const [author, setAuthor] = useState();
@@ -18,12 +18,13 @@ const AddBook = ({ bookData, clickedUpdate }) => {
     const [clearFile, setClearFile] = useState();
     const [isSelected, setIsSelected] = useState(false);
     const [updateValues, setUpdateValues] = useState(clickedUpdate);
+    const { toasting, setSuccessToast, setErrorToast } = useCustomToast();
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        console.log(title, bookcover);
         const formData = new FormData();
 
         formData.append("title", title);
@@ -35,52 +36,31 @@ const AddBook = ({ bookData, clickedUpdate }) => {
 
         if (clickedUpdate) {
             try {
-                var idupdate = toast.loading("Updating...");
-                  
+                toasting();
+
                 const updatedData = await axiosPrivate.put(`/books/updatebook/${id}`, formData, {
                     withCredentials: true,
                     headers: {
                         "Content-Type": "multipart/form-data",
                     },
                 });
-
-                toast.success("Book Details Updated", {
-                    position: toast.POSITION.TOP_LEFT,
-                });
+                setSuccessToast("book details Updated");
+                setClickedUpdate(false);
+                
             } catch (error) {
-                if (error.response.status === 400) {
-                    toast.update(idupdate, {
-                        render: "Fill in All the Fields",
-                        type: "error",
-                        isLoading: false,
-                        autoClose: 5000,
-                        closeButton: true,
-                        position:toast.POSITION.BOTTOM_RIGHT
-                    });
-                } else if (error.response.status === 404) {
-                    toast.update(idupdate, {
-                        render: "Something went wrong",
-                        type: "error",
-                        isLoading: false,
-                        autoClose: 5000,
-                        closeButton: true,
-                        position:toast.POSITION.BOTTOM_RIGHT
-                    });
+                console.log(error);
+                if (error?.response?.status === 400) {
+                    setErrorToast("Fill in All the Fields");
+                } else if (error?.response?.status === 404) {
+                    setErrorToast("Book does not exist");
                 } else {
                     console.log(error);
-                    toast.update(idupdate, {
-                        render: "Something went wrong",
-                        type: "error",
-                        isLoading: false,
-                        autoClose: 5000,
-                        closeButton: true,
-                        position:toast.POSITION.BOTTOM_RIGHT
-                    });
+                    setErrorToast("Something went wrong");
                 }
             }
         } else {
             try {
-                var idsav = toast.loading("Saving...");
+                toasting();
 
                 const data = await axiosPrivate.post(
                     "/books/add",
@@ -94,24 +74,18 @@ const AddBook = ({ bookData, clickedUpdate }) => {
                     }
                 );
 
-              
                 navigate("/admindash");
             } catch (error) {
-                if (error.response.status === 400) {
-                    toast.update(idsav, {
-                        render: "Fill in All the Fields",
-                        type: "error",
-                        isLoading: false,
-                        autoClose: 5000,
-                        closeButton: true,
-                        position:toast.POSITION.BOTTOM_RIGHT
-                    });
+                if (error?.response?.status === 400) {
+                    setErrorToast("Fill in All the Fields");
                 } else {
                     console.log(error);
+                    setErrorToast("Something went wrong");
                 }
             }
         }
     };
+
 
     const handleFileChange = (e) => {
         console.log(e.target.files[0]);
@@ -121,6 +95,7 @@ const AddBook = ({ bookData, clickedUpdate }) => {
         setIsSelected(true);
     };
 
+
     useEffect(() => {
         if (updateValues) {
             setAuthor(bookData.author);
@@ -128,6 +103,7 @@ const AddBook = ({ bookData, clickedUpdate }) => {
             setTitle(bookData.title);
             setIsbn(bookData.isbn);
             setYear(bookData.year);
+            setBookcover(bookData.bookcover);
             setBookPreview(bookData.imageUrl);
             setIsSelected(true);
         }
@@ -135,6 +111,7 @@ const AddBook = ({ bookData, clickedUpdate }) => {
             setUpdateValues(false);
         };
     }, [updateValues]);
+
 
     const handleClearFile = () => {
         setClearFile("");
@@ -165,7 +142,10 @@ const AddBook = ({ bookData, clickedUpdate }) => {
                         </div>
 
                         <div className={`d-flex mt-4 col-lg-6 justify-content-between px-4 py-2`}>
-                            <label className={`${AddBookCss.select_label}`} htmlFor="imgselect">
+                            <label
+                                className={`${AddBookCss.select_label} pe-3 pe-md-0`}
+                                htmlFor="imgselect"
+                            >
                                 {" "}
                                 <input
                                     className={`my-4 mb-4 ${AddBookCss.file_input}`}

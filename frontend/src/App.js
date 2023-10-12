@@ -8,7 +8,6 @@ import RequireAuth from "./Components/RequireAuth";
 import ReviewPage from "./Components/ReviewPage";
 import RentPage from "./Components/RentPage";
 import UserProfile from "./Components/User/UserProfile";
-import AdminDash from "./Components/Admin/AdminDash";
 import AdminView from "./Components/Admin/AdminView";
 import AdminLayout from "./Components/Admin/AdminLayout";
 import AddBook from "./Components/Admin/AddBook.jsx";
@@ -17,6 +16,7 @@ import BookActions from "./Components/Admin/BookActions";
 import PresistLogin from "./Components/PresistLogin";
 import Notfound from "./Components/Notfound";
 import Forbidden from "./Components/Forbidden";
+import UserLayout from "./Components/UserLayout";
 
 function App() {
     return (
@@ -27,17 +27,18 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/bookdetails/:id" element={<Bookdetail />} />
-                <Route path="/unauthorized"element={<Forbidden/>}/>
+                <Route path="/unauthorized" element={<Forbidden />} />
 
                 {/* private routes  */}
 
                 <Route element={<PresistLogin />}>
                     <Route element={<RequireAuth allowedRoles={[8765]} />}>
-                        <Route path="/userdashboard" element={<Landingpage />} />
-                        <Route path="/review/:id" element={<ReviewPage />} />
-                        <Route path="/rent/:id" element={<RentPage />} />
-                        <Route path="/profile/:id" element={<UserProfile />} />
-                       
+                        <Route element={<UserLayout />}>
+                            <Route path="/userdashboard" element={<Landingpage />} />
+                            <Route path="/review/:id" element={<ReviewPage />} />
+                            <Route path="/rent/:id" element={<RentPage />} />
+                            <Route path="/profile/:id" element={<UserProfile />} />
+                        </Route>
                     </Route>
                     <Route element={<RequireAuth allowedRoles={[6996]} />}>
                         <Route element={<AdminLayout />}>
@@ -49,8 +50,7 @@ function App() {
                     </Route>
                 </Route>
 
-
-                <Route path="*" element={<Notfound/>}/>
+                <Route path="*" element={<Notfound />} />
             </Routes>
         </div>
     );

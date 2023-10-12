@@ -1,10 +1,11 @@
 import React, { useEffect,  useState } from 'react'
 import HedaerHome from './HedaerHome'
 import './Home.css'
-// import Slide from 'react-reveal/Slide';
 import homebg from '../../Img/bgmain.png'
 import TypeIt from "typeit-react";
 import Books from './Books/Books';
+import Footer from '../Footer';
+
 
 const Home = () => {
 
@@ -53,12 +54,16 @@ const typeit = ()=>{
       </div>
       </div>
       </main>
-      <div className="d-flex justify-content-center">
+
+      <div className="d-flex justify-content-center ps-4 ps-sm-0">
      { isMounted?typeit():null}
       </div>
-      <div className="d-flex justify-content-center"><button type="button" class="btn btn-dark show-btn">Show All</button></div>
+      <div className="d-flex justify-content-center "><button type="button" class="btn btn-dark show-btn">Show All</button></div>
 
-      <div className='mx-5 my-5'><Books/></div>
+      <div className='mx-5 mt-5'><Books/></div>
+
+    <Footer/>
+
 </>
   )
 }

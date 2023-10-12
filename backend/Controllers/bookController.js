@@ -56,10 +56,11 @@ const createNewBook = async (req, res) => {
 
 const editBook = async (req, res) => {
     try {
+        
         const id = req.params.id;
         console.log(id);
         let { title, author, isbn, genre, year, bookcover} = req.body;
-          console.log()
+          console.log(req.body)
         if (req.file) {
             const { uploadResult, storedName } = await S3Uploadv2(req.file);
             bookcover = storedName;
@@ -67,8 +68,7 @@ const editBook = async (req, res) => {
 
         }
 
-        if (!(title && author && genre && isbn && year && bookcover))
-            return res.status(400).json({ message: "Bad Request! Insufficent data" });
+        if (!(title && author && genre && isbn && year && bookcover)) return res.status(400).json({ message: "Bad Request! Insufficent data" });
 
         const foundBook = await bookModel.findById(id).exec();
         if (!foundBook) return res.status(404).json({ message: "Book not found" });

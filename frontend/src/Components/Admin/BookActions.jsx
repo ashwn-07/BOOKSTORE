@@ -134,7 +134,7 @@ const BookActions = () => {
                     </div>
                 </main>
             ) : (
-                <AddBook bookData={book} clickedUpdate={update} />
+                <AddBook bookData={book} clickedUpdate={update} setClickedUpdate = {setUpdate} />
             )}
         </>
     );

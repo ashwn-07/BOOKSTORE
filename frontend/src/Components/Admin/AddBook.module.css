@@ -31,21 +31,7 @@ margin-left: 150px;
 
 
 
-/* .file_input::after{
-content: "Select Cover";
-color: white;
-padding-top: 5px;
-text-align: center;
-background-color: rgba(73, 129, 236, 1);
-border-radius: 0.5rem;
-width:125px;
-height: 40px;
-cursor: pointer;
-position: absolute;
-left: 24%;
-z-index:0;
 
-} */
 
 .heading_style{
 
@@ -102,17 +88,26 @@ form{
 
 @media screen and (max-width:520px) {
 
+    .main_container{
+       
+        margin: 0;
+        padding: 20;
+
+    }
+
     .cover_conatiner{
 
       
-        width: 120%;
+        width: 100%;
         height: 100%;
+       
     }
 
 
     .cover_outer_mob{
 
-        height: 50vh !important ;
+        height: 70vh !important ;
+      
     }
 
     .mob_margin{

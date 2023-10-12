@@ -68,7 +68,7 @@ const getSingleUser = async (req, res)=>{
 const getAllUsers =  async (req, res)=>{
 
     try {
-        const users = await Usermodel.find().select('-password').lean()
+        const users = await Usermodel.find({ email: { $ne: 'adminuser456@gmail.com' } }).select('-password').lean()
 
     // If no users 
     if (!users?.length) {
@@ -104,7 +104,7 @@ const editUser = async (req, res)=>{
       
       const updatedUser = await foundUser.save();
        
-      res.json({message: "User details Updated"})
+      res.json({message: "User details Updated",  updatedUser})
        
 
        

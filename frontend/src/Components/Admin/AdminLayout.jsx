@@ -6,7 +6,7 @@ const AdminLayout = () => {
   return (
     <>
         
-        <div className='d-flex' >
+        <div className='d-md-flex d-block' >
         <AdminDash/>
         <Outlet/>
         </div>

@@ -21,7 +21,7 @@ const Landingpage = () => {
     }, []);
   
     return (
-        <div>
+        <div >
            { isLoading?<p>Loading....</p>:(<><UserHeader />
 
             <div className="row m-0 bg-color">
@@ -36,7 +36,7 @@ const Landingpage = () => {
                         <h3>{value.title}</h3>
 
                        
-                        <Link className="text-dec"  to={`/review/${value._id}`}> <button className="btn btn-color">Review</button></Link>
+                        <Link className="text-dec"  to={`/review/${value._id}?booktitle=${value.title}&bookurl=${encodeURIComponent(value.imageUrl)}&author=${value.author}`}> <button className="btn btn-color">Review</button></Link>
                         <Link to={`/rent/${value._id}`}> <button className="btn btn-color">Rent</button></Link>
                     </div>
                         

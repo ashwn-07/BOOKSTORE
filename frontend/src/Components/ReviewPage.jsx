@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import UserHeader from "./User/UserDash/UserHeader";
 import revStyle from "./RevPage.module.css";
 import { toast, ToastContainer } from "react-toastify";
@@ -8,20 +8,28 @@ import ReviewView from "./ReviewView";
 import AddStars from "./AddStars";
 import useAxiosPrivate from "../Hooks/UseAxiosPrivate";
 import useAuth from "../Hooks/UseAuth";
+import useCustomToast from "../Hooks/UseToast";
 
 const ReviewPage = () => {
-    const { id } = useParams(); // book id
+    const { id } = useParams();
     const { auth } = useAuth();
     const userid = auth.id;
     const [rating, setRating] = useState(0);
     const [rev, setRev] = useState("");
     const [newReviewAdded, setNewReviewAdded] = useState(false);
     const axiosPrivate = useAxiosPrivate();
-
+    const bookParams = new URLSearchParams(useLocation().search);
+    const booktTitle = bookParams.get("booktitle");
+    const bookImage = bookParams.get("bookurl");
+    const author = bookParams.get("author");
+    const { toasting, setSuccessToast, setErrorToast } = useCustomToast();
+    const [test, setTest] = useState(0)
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log(userid);
+            
+             toasting();
+
             const response = await axiosPrivate.post(
                 `review/add/${id}`,
                 {
@@ -33,31 +41,57 @@ const ReviewPage = () => {
                     withCredentials: true,
                 }
             );
+         
+            setSuccessToast("Review Added");
 
-            toast.success("Review Added", {
-                position: toast.POSITION.TOP_LEFT,
-            });
             setNewReviewAdded(true);
+            
         } catch (error) {
+
             if (error.response.status === 409) {
-                toast.error("Review already added", {
-                    position: toast.POSITION.TOP_LEFT,
-                });
+
+                setErrorToast("Review already added");
+
             } else if (error.response.status === 400) {
-                toast.error("Please write before submission", {
-                    position: toast.POSITION.TOP_LEFT,
-                });
+
+                setErrorToast("Write before submission");
+
             } else {
+                setErrorToast("Something went wrong at our end");
                 console.log(error);
             }
         }
     };
+    useEffect(()=>{
+         
+                setTest()
+        
+            },[test])
+           
     return (
         <>
             <UserHeader />
+
             <main className={`px-5 mt-4 ${revStyle.main_padding_mob}`}>
                 <article className="row">
                     <section className="col-lg-6">
+                        {/* test start */}
+                        <div className="row mb-3 ps-lg-0">
+                            {" "}
+                            <div className=" col-lg-4 d-flex">
+                                <div className="d-flex justify-content-center ">
+                                    <img className="img-fluid rounded" src={bookImage} />
+                                </div>
+                            </div>
+                            <div className="col-lg-5 ms-lg-0 ms-4 mt-3 mt-sm-0">
+                                <h4>{booktTitle} </h4>
+                                <h4>
+                                    Author:<span className="text-secondary fs-5">{author}</span>
+                                </h4>
+                            </div>
+                        </div>
+
+                        {/* testing end */}
                         <div className={`d-flex  justify-content-between row`}>
                             <h2
                                 className={`${revStyle.main_section_heading}  col-lg-6 col-sm-12 col-12`}

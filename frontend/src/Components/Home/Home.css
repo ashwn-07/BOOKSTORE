@@ -58,3 +58,20 @@ border-color: rgb(201, 30, 64);
     background-color: rgb(167, 28, 55);
     border-color: rgb(201, 30, 64);
     }
+
+    
+
+    @media screen and (max-width:720px) {
+
+        .type-it{
+
+            padding-left: 2rem;
+            border-color: #c82e61;
+        }
+        
+    }
+
+    .page-footer{
+
+        background-color: rgba(239, 237, 237, 0.334);
+    }

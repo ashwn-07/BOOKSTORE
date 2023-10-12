@@ -51,8 +51,9 @@ callapi();
 
         setTimeout(() => {
           setIsSuccess(false)
+          setIsEditClicked(false)
           setMsg("")
-        }, 3000);
+        }, 2000);
 
     } catch (error) {
       console.log(error)
